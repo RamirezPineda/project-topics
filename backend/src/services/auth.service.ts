@@ -1,25 +1,24 @@
-import { Auth } from "../interfaces/auth.interface.js";
-import { User } from "../interfaces/user.interface.js";
+import { UploadedFile } from "express-fileupload";
 
-import { FileArray, UploadedFile } from "express-fileupload";
+import { Auth } from "../interfaces/auth.interface.js";
+import { fileUploadType } from "../interfaces/fileUploadType.js";
 
 import SegipModel from "../models/segip.model.js";
 import UserModel from "../models/user.model.js";
+import PersonModel from "../models/person.model.js";
 
 import { verify, encrypt } from "../utils/bcrypt.utils.js";
 import { generateToken } from "../utils/jwt.utils.js";
 import { confirmFace } from "../utils/rekognition.js";
 import { transport } from "../config/nodemailer.js";
-import PersonModel from "../models/person.model.js";
-
-type fileUploadType = FileArray | undefined | null;
 
 type dataUserType = {
   ci: string;
   name: string;
   email: string;
+  password: string;
   address: string;
-  photoUrl: string;
+  photo: string;
   phone: string;
 };
 
@@ -50,14 +49,15 @@ const verifyDataUser = async (ci: string, files: fileUploadType) => {
 const registerNewUser = async ({
   name,
   email,
+  password,
   ci,
   address,
   phone,
-  photoUrl,
+  photo,
 }: dataUserType) => {
   //data limpia, se supone que paso todas las validaciones de la funcion VerifyDataUser
 
-  const passwordHash = await encrypt(ci);
+  const passwordHash = await encrypt(password);
   const newUser = await UserModel.create({
     email,
     passwords: [passwordHash],
@@ -69,61 +69,87 @@ const registerNewUser = async ({
     name,
     address,
     phone,
-    photo: photoUrl,
+    photo,
     userId: newUser._id,
-  });
-
-  //Envia el mensaje de verificacion del email
-  const info = await transport.sendMail({
-    from: '"Ricky Roy Ramirez Pineda" <ramirezpineda@midominio.com>',
-    to: `${email}`,
-    subject: `Código de verificación`,
-    html: `<h1>Este es su código de verificación: ${newUser.verificationCode}</h1>`,
   });
 
   const data = { user: newUser, person: newPerson };
   return data;
 };
 
-// Verifica codigo de email
-const verifyEmailCode = async (email: string, code: string) => {
-  const userFound = await UserModel.findOne({ email });
-  if (!userFound) return false;
-
-  const isCorrect = code === userFound.verificationCode;
-
-  if (isCorrect) {
-    userFound.emailIsVerified = true;
-    await userFound.save();
-  }
-
-  return isCorrect;
+const sendEmail = async (email: string, code: string) => {
+  const info = await transport.sendMail({
+    from: '"Ricky Roy Ramirez Pineda" <ramirezpineda@midominio.com>',
+    to: `${email}`,
+    subject: `Código de verificación`,
+    html: `<h1>Este es su código de verificación: ${code}</h1>`,
+  });
 };
 
 const login = async ({ email, password }: Auth) => {
   const userFound = await UserModel.findOne({ email });
   if (!userFound) return null;
 
-  if (!userFound.emailIsVerified) return null; // el email no esta verificado
-
-  const lastPasswordIndex = userFound.passwords.length;
-  const passwordHash = userFound.passwords[lastPasswordIndex].password;
+  const lastPasswordIndex = userFound.passwords.length - 1;
+  const passwordHash = userFound.passwords[lastPasswordIndex];
 
   const isCorrect = await verify(password, passwordHash);
   if (!isCorrect) return null;
 
+  const person = await PersonModel.findOne({ userId: userFound._id });
+  if (!person) return null;
+
   const token = generateToken(userFound);
   const data = {
+    _id: userFound._id,
+    email: userFound.email,
+    name: person.name,
+    ci: person.ci,
+    address: person.address,
+    phone: person.phone,
+    photo: person.photo,
     token,
-    user: { _id: userFound._id, email: userFound.email },
   };
 
   return data;
 };
 
+type PersonEditDataType = {
+  address: string;
+  phone: string;
+  password?: string;
+};
+
+const updateProfile = async (id: string, data: PersonEditDataType) => {
+  const userFound = await UserModel.findById({ _id: id });
+  const personFound = await PersonModel.findOne({ userId: id });
+  if (!userFound || !personFound)
+    return { message: "Usuario o Persona no encontrado" };
+
+  if (data.password) {
+    //Verificar que la contrasena nueva no fue utilizada anteriormente
+    for await (const passwordHashDB of userFound.passwords) {
+      const used = await verify(data.password, passwordHashDB);
+
+      if (used) return { message: "La contraseña ya fue utilizada" };
+    }
+
+    const passwordHash = await encrypt(data.password);
+    userFound.passwords.push(passwordHash);
+    await userFound.save();
+  }
+
+  personFound.address = data.address;
+  personFound.phone = data.phone;
+  await personFound.save();
+
+  return personFound;
+};
+
 export default {
   verifyDataUser,
   registerNewUser,
+  sendEmail,
+  updateProfile,
   login,
-  verifyEmailCode,
 };

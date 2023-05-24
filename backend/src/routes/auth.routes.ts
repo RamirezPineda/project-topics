@@ -5,6 +5,8 @@ import fileUpload from "express-fileupload";
 
 const router = Router();
 
+router.get("/isAlive", AuthController.isAlive);
+
 router.post(
   "/verify-data-user",
   fileUpload({ useTempFiles: true, tempFileDir: "./src/uploads/" }),
@@ -13,9 +15,12 @@ router.post(
 
 router.post("/register", AuthController.registerNewUser);
 
-router.post("/verify-email-code", AuthController.verifyEmailCode);
+router.post("/send-email", AuthController.sendEmail);
 
 router.post("/login", AuthController.login);
+
+router.post("/update-profile/:id", AuthController.updateProfile);
+
 
 // router.post("/logout", AuthController.logout);
 

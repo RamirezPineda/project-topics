@@ -1,9 +1,15 @@
 import { Request, Response } from "express";
 import AuthService from "../services/auth.service.js";
 
+const isAlive = (req: Request, res: Response) => {
+  return res.status(200).json({ menssage: "is Ok" });
+};
+
 const verifyDataUser = async (req: Request, res: Response) => {
   try {
     const { ci } = req.body;
+    console.log("Request: ", req.body);
+    console.log("Request files: ", req.files);
     const response = await AuthService.verifyDataUser(ci, req.files);
 
     if ("message" in response) {
@@ -19,15 +25,16 @@ const verifyDataUser = async (req: Request, res: Response) => {
 
 const registerNewUser = async (req: Request, res: Response) => {
   try {
-    const { ci, name, email, address, phone, photoUrl } = req.body;
+    const { ci, name, email, password, address, phone, photo } = req.body;
 
     const newUser = await AuthService.registerNewUser({
       name,
       email,
+      password,
       ci,
       address,
       phone,
-      photoUrl,
+      photo,
     });
 
     res.status(201).json(newUser);
@@ -37,22 +44,16 @@ const registerNewUser = async (req: Request, res: Response) => {
   }
 };
 
-const verifyEmailCode = async (req: Request, res: Response) => {
+const sendEmail = async (req: Request, res: Response) => {
   try {
     const { email, code } = req.body;
-    const isCorrect = await AuthService.verifyEmailCode(email, code);
-
-    if (!isCorrect)
-      return res.status(400).json({
-        messange:
-          "El usuario con ese email no existe o el codigo es incorrecto",
-      });
-
+    await AuthService.sendEmail(email, code);
     return res
       .status(200)
-      .json({ message: "El email fue verificado exitosamente" });
+      .json({ message: "Se envio un código de verificación a su email" });
   } catch (error) {
-    res.status(500).json(error);
+    console.log(error);
+    res.status(500).json({ message: "Ocurrio un error en el server" });
   }
 };
 
@@ -67,7 +68,28 @@ const login = async (req: Request, res: Response) => {
     res.status(200).json(user);
   } catch (error) {
     console.log(error);
-    res.status(500).json(error);
+    res.status(500).json({ message: "Ocurrio un error en el server" });
+  }
+};
+
+const updateProfile = async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params;
+    const { address, phone, password } = req.body;
+    const response = await AuthService.updateProfile(id, {
+      address,
+      phone,
+      password,
+    });
+
+    if ("message" in response) {
+      return res.status(400).json(response);
+    }
+
+    return res.status(200).json(response);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: "Ocurrio un error en el server" });
   }
 };
 
@@ -75,14 +97,16 @@ const logout = async (req: Request, res: Response) => {
   try {
   } catch (error) {
     console.log(error);
-    res.status(500).json(error);
+    res.status(500).json({ message: "Ocurrio un error en el server" });
   }
 };
 
 export default {
+  isAlive,
   verifyDataUser,
   registerNewUser,
-  verifyEmailCode,
+  sendEmail,
   login,
+  updateProfile,
   logout,
 };

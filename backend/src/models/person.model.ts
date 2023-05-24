@@ -4,6 +4,7 @@ import { Person } from "../interfaces/person.interface.js";
 const PersonSchema = new Schema<Person>(
   {
     name: String,
+    ci: String,
     photo: String,
     address: String,
     phone: String,
