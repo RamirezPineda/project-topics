@@ -7,7 +7,7 @@ import { dbConnet, seeders } from "./config/mongoose.js";
 
 import auth from "./routes/auth.routes.js";
 import categories from "./routes/category.routes.js";
-
+import complaints from "./routes/complaint.routes.js";
 
 const app = express();
 
@@ -18,6 +18,7 @@ app.use(express.json());
 // Routes
 app.use("/api", auth);
 app.use("/api", categories);
+app.use("/api", complaints);
 
 // MongoDB
 try {
@@ -33,4 +34,4 @@ try {
 
 const PORT = process.env.PORT || 3000;
 
-app.listen(3000, () => console.log(`Server on port ${PORT}`));
+app.listen(3000, "192.168.0.58", () => console.log(`Server on port ${PORT}`));

@@ -6,8 +6,8 @@ const getAllCategories = async (req: Request, res: Response) => {
     const allCategories = await CategoryService.getAllCategories();
     return res.status(200).json(allCategories);
   } catch (error) {
-    console.log("EL error: ", error);
-    res.status(500).json(error);
+    console.log(error);
+    res.status(500).json({ message: "Ocurrio un error en el server" });
   }
 };
 

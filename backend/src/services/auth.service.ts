@@ -108,6 +108,7 @@ const login = async ({ email, password }: Auth) => {
     address: person.address,
     phone: person.phone,
     photo: person.photo,
+    personId: person._id,
     token,
   };
 
