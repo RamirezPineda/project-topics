@@ -1,5 +1,5 @@
 import fetch from "node-fetch";
-import { CompareFacesCommand } from "@aws-sdk/client-rekognition";
+import { CompareFacesCommand, DetectLabelsCommand } from "@aws-sdk/client-rekognition";
 
 import { rekognition } from "../config/awsRekognition.js";
 import { UploadedFile } from "express-fileupload";
@@ -40,4 +40,27 @@ const confirmFace = async (userImageFile: UploadedFile, segipImage: string) => {
   }
 };
 
-export { confirmFace };
+
+
+const detectingLabelsInAnImage = async (typeComplaint: string, imageFile: UploadedFile) => {
+  //Detecting Labels In An Image
+  console.log('entro aqui', typeComplaint)
+  const imageBase64 = fs.readFileSync(imageFile.tempFilePath, "base64");
+  const imageBytes = Uint8Array.from(Buffer.from(imageBase64, 'base64'));
+
+  const inputParams = {
+    Image: {
+      Bytes: imageBytes,
+    },
+    MaxLabels: 10,
+  };
+
+  const command = new  DetectLabelsCommand(inputParams);
+
+  const result = await rekognition.send(command);
+  console.log(result);
+
+}
+
+
+export { confirmFace, detectingLabelsInAnImage };

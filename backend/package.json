@@ -13,6 +13,8 @@
   "license": "ISC",
   "dependencies": {
     "@aws-sdk/client-rekognition": "^3.333.0",
+    "@aws-sdk/client-s3": "^3.342.0",
+    "@aws-sdk/client-translate": "^3.342.0",
     "bcrypt": "^5.1.0",
     "chatgpt": "^5.2.4",
     "cloudinary": "^1.37.0",
@@ -26,7 +28,6 @@
     "morgan": "^1.10.0",
     "node-fetch": "^3.3.1",
     "nodemailer": "^6.9.2",
-    "uuid": "^9.0.0",
     "zod": "^3.21.4"
   },
   "devDependencies": {

@@ -21,8 +21,8 @@ app.use("/api", categories);
 app.use("/api", complaints);
 
 // MongoDB
+console.log("Connecting to database");
 try {
-  console.log("Connecting to database");
   await dbConnet();
   console.log("MongoDB connect");
 

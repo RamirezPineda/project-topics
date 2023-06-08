@@ -103,6 +103,7 @@ const login = async ({ email, password }: Auth) => {
   const data = {
     _id: userFound._id,
     email: userFound.email,
+    lastPasswordChange: userFound.lastPasswordChange,
     name: person.name,
     ci: person.ci,
     address: person.address,
@@ -137,6 +138,7 @@ const updateProfile = async (id: string, data: PersonEditDataType) => {
 
     const passwordHash = await encrypt(data.password);
     userFound.passwords.push(passwordHash);
+    userFound.lastPasswordChange = new Date();
     await userFound.save();
   }
 
@@ -144,7 +146,13 @@ const updateProfile = async (id: string, data: PersonEditDataType) => {
   personFound.phone = data.phone;
   await personFound.save();
 
-  return personFound;
+  const newData = {
+    address: personFound.address,
+    phone: personFound.phone,
+    lastPasswordChange: userFound.lastPasswordChange,
+  };
+  
+  return newData;
 };
 
 export default {

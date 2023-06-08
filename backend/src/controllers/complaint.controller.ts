@@ -5,7 +5,7 @@ const addComplaint = async (req: Request, res: Response) => {
   try {
     const { title, description, categoryId, personId, latitude, longitude } =
       req.body;
-
+    console.log(req.body);
     const newComplaint = await ComplaintService.addComplaint(
       {
         title,
@@ -20,7 +20,11 @@ const addComplaint = async (req: Request, res: Response) => {
       req.files
     );
 
-    res.json(newComplaint);
+    if ("message" in newComplaint) {
+      return res.status(400).json(newComplaint);
+    }
+
+    return res.json(newComplaint);
     // res.json({message: "hola"});
   } catch (error) {
     console.log(error);
@@ -28,12 +32,27 @@ const addComplaint = async (req: Request, res: Response) => {
   }
 };
 
-const getAllComplaintPerson = async (req: Request, res: Response) => {
+const updateComplaint = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
-    const allComplaints = await ComplaintService.getAllComplaintPerson(`${id}`);
+    const { title, description, photos, categoryId, personId } = req.body;
+    const updatedComplaint = await ComplaintService.updateComplaint(
+      `${id}`,
+      {
+        title,
+        description,
+        photos,
+        categoryId,
+        personId,
+      },
+      req.files
+    );
 
-    res.status(200).json(allComplaints);
+    if (!updatedComplaint || "message" in updatedComplaint) {
+      return res.status(400).json(updatedComplaint);
+    }
+
+    return res.status(200).json(updatedComplaint);
   } catch (error) {
     console.log(error);
     res.status(500).json({ message: "Ocurrio un error en el server" });
@@ -52,4 +71,21 @@ const deleteComplaint = async (req: Request, res: Response) => {
   }
 };
 
-export default { addComplaint, getAllComplaintPerson, deleteComplaint };
+const getAllComplaintPerson = async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params;
+    const allComplaints = await ComplaintService.getAllComplaintPerson(`${id}`);
+
+    res.status(200).json(allComplaints);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: "Ocurrio un error en el server" });
+  }
+};
+
+export default {
+  addComplaint,
+  getAllComplaintPerson,
+  deleteComplaint,
+  updateComplaint,
+};

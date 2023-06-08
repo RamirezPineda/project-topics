@@ -11,9 +11,14 @@ router.post(
   ComplaintController.addComplaint
 );
 
+router.put(
+  "/complaints/:id",
+  fileUpload({ useTempFiles: true, tempFileDir: "./src/uploads/" }),
+  ComplaintController.updateComplaint
+);
+
 router.get("/complaints/person/:id", ComplaintController.getAllComplaintPerson);
 
-
-router.delete("/complaints/:id", ComplaintController.deleteComplaint)
+router.delete("/complaints/:id", ComplaintController.deleteComplaint);
 
 export default router;
