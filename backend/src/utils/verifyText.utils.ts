@@ -1,11 +1,12 @@
 import "dotenv/config";
-import { ChatGPTAPI } from "chatgpt";
+import { ChatGPTAPI  } from "chatgpt";
 
 import { promt } from "./promt.js";
 
 const api = new ChatGPTAPI({
   apiKey: process.env.OPENAI_API_KEY || "",
 });
+
 
 export const itIsOfencive = async (title: string, description: string) => {
   const response = await api.sendMessage(`Texto: ${title}. ${description}`, {
@@ -41,4 +42,3 @@ export const validateMessage = async (
   // }
   return responseText;
 };
-

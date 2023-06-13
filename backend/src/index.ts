@@ -33,5 +33,5 @@ try {
 }
 
 const PORT = process.env.PORT || 3000;
-
-app.listen(3000, "192.168.0.58", () => console.log(`Server on port ${PORT}`));
+//, "192.168.0.58"
+app.listen(3000, () => console.log(`Server on port ${PORT}`));

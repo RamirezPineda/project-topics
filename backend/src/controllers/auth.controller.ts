@@ -25,7 +25,7 @@ const verifyDataUser = async (req: Request, res: Response) => {
 
 const registerNewUser = async (req: Request, res: Response) => {
   try {
-    const { ci, name, email, password, address, phone, photo } = req.body;
+    const { ci, name, email, password, address, phone, photo, tokenMovil } = req.body;
 
     const newUser = await AuthService.registerNewUser({
       name,
@@ -35,6 +35,7 @@ const registerNewUser = async (req: Request, res: Response) => {
       address,
       phone,
       photo,
+      tokenMovil,
     });
 
     res.status(201).json(newUser);

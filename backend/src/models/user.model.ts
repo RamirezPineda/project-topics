@@ -7,6 +7,7 @@ const UserSchema = new Schema<User>(
     passwords: [{ type: String, min: 8, required: true }],
     lastPasswordChange: { type: Date, required: true },
     state: { type: Boolean, default: true },
+    tokenMovil: { type: String, required: true },
   },
   {
     timestamps: true,

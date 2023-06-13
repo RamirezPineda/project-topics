@@ -1,3 +1,4 @@
+
 import CategoryModel from "../models/category.model.js";
 import PersonModel from "../models/person.model.js";
 import ComplaintModel from "../models/complaint.model.js";
@@ -7,6 +8,8 @@ import { fileUploadType } from "../interfaces/fileUploadType.js";
 
 import { itIsOfencive, validateMessage } from "../utils/verifyText.utils.js";
 import { uploadMultipleImages } from "../utils/uploadImage.utils.js";
+
+// import { messageFirebase } from '../config/firebase.js'
 
 const addComplaint = async (data: Complaint, files: fileUploadType) => {
   // const person = await PersonModel.findById({ _id: data.personId });
@@ -144,9 +147,33 @@ const getAllComplaintPerson = async (personId: string) => {
   return allComplaints;
 };
 
+const updateStateComplaint = async (id: string, state: string) => {
+  const complaint = await ComplaintModel.findById({_id: id});
+
+  if (!complaint) return {message: "La denuncia no existe"}
+
+  complaint.state = state;
+  await complaint.save();
+
+  // TODO: SEND NOTIFICATION
+  // const message = {
+  //   data: {
+  //     score: '850',
+  //     time: '2:45',
+  //     test: "prueba",
+  //   },
+  //   token: 'TOKEN_DEVICE_MOVIL'
+  // };
+  
+  // messageFirebase.send(message, true);
+
+  return complaint;
+} 
+
 export default {
   addComplaint,
   getAllComplaintPerson,
   deleteComplaint,
   updateComplaint,
+  updateStateComplaint,
 };

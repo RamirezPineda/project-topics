@@ -1,7 +1,6 @@
-import { Types } from 'mongoose'
 
 export interface Complaint {
-  _id?: string;
+  _id: string;
   title: string;
   description: string;
   photos: string[];
@@ -10,4 +9,5 @@ export interface Complaint {
   longitude: number;
   categoryId: string;
   personId: string;
+  createdAt: Date;
 }

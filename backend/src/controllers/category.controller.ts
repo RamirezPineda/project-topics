@@ -11,4 +11,16 @@ const getAllCategories = async (req: Request, res: Response) => {
   }
 };
 
-export default { getAllCategories };
+const getAllCategoriesWithComplaints = async (req: Request, res: Response) => {
+  try {
+    const allCategoriesWithComplaints =
+      await CategoryService.getAllCategoriesWithComplaints();
+
+    return res.status(200).json(allCategoriesWithComplaints);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: "Ocurrio un error en el server" });
+  }
+};
+
+export default { getAllCategories, getAllCategoriesWithComplaints };

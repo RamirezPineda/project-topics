@@ -20,6 +20,7 @@ type dataUserType = {
   address: string;
   photo: string;
   phone: string;
+  tokenMovil: string;
 };
 
 const verifyDataUser = async (ci: string, files: fileUploadType) => {
@@ -54,6 +55,7 @@ const registerNewUser = async ({
   address,
   phone,
   photo,
+  tokenMovil,
 }: dataUserType) => {
   //data limpia, se supone que paso todas las validaciones de la funcion VerifyDataUser
 
@@ -62,6 +64,7 @@ const registerNewUser = async ({
     email,
     passwords: [passwordHash],
     lastPasswordChange: new Date(),
+    tokenMovil,
   });
 
   const newPerson = await PersonModel.create({
@@ -104,6 +107,7 @@ const login = async ({ email, password }: Auth) => {
     _id: userFound._id,
     email: userFound.email,
     lastPasswordChange: userFound.lastPasswordChange,
+    tokenMovil: userFound.tokenMovil,
     name: person.name,
     ci: person.ci,
     address: person.address,

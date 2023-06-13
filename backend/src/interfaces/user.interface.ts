@@ -6,5 +6,6 @@ export interface User {
   email: string;
   passwords: string[];
   lastPasswordChange: Date;
+  tokenMovil: string;
   state: boolean;
 }

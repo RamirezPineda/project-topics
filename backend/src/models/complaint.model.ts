@@ -1,4 +1,4 @@
-import { Schema, model, Types } from "mongoose";
+import { Schema, model } from "mongoose";
 import { Complaint } from "../interfaces/complaint.interface.js";
 
 const ComplaintSchema = new Schema<Complaint>(
@@ -7,8 +7,8 @@ const ComplaintSchema = new Schema<Complaint>(
     description: { type: String, required: true },
     photos: [{ type: String }],
     state: { type: String, default: "pendiente" },
-    latitude: { type: Types.Decimal128, required: true },
-    longitude: { type: Types.Decimal128, required: true },
+    latitude: { type: Number, required: true },
+    longitude: { type: Number, required: true },
     categoryId: { type: String, required: true },
     personId: { type: String, required: true },
   },
