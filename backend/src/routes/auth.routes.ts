@@ -21,7 +21,6 @@ router.post("/login", AuthController.login);
 
 router.post("/update-profile/:id", AuthController.updateProfile);
 
-
 // router.post("/logout", AuthController.logout);
 
 export default router;

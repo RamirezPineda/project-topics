@@ -1,28 +1,12 @@
-import { initializeApp } from 'firebase-admin/app'
+import "dotenv/config";
+import { initializeApp, applicationDefault } from "firebase-admin/app";
+import { getMessaging, Message } from "firebase-admin/lib/messaging";
 
-const app = initializeApp();
+// Initialize Firebase
+const appFirebase = initializeApp({
+  credential: applicationDefault(),
+});
 
+export const messaging = getMessaging();
 
-// const firebaseConfig = {
-//   apiKey: "AIzaSyBrcerijVqtuxpXp1MZZD72gSMdR-_4y8w",
-//   authDomain: "topics-project-42f57.firebaseapp.com",
-//   projectId: "topics-project-42f57",
-//   storageBucket: "topics-project-42f57.appspot.com",
-//   messagingSenderId: "129102410527",
-//   appId: "1:129102410527:web:860a1ac1bc99e12caab62a",
-//   measurementId: "G-5QC6LM6R0W",
-// };
-
-// // Initialize Firebase
-// const appFirebase = initializeApp(firebaseConfig);
-
-// export const messageFirebase = appFirebase.messaging()
-
-
-
-
-
-
-
-
-
+messaging.send({ token: "" });

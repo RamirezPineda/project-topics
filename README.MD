@@ -26,3 +26,55 @@
   conversationId: '851e0799-33a8-4ac7-b87f-b31fd0129ce1',
   text: 'OK'
 }
+
+// Solo las denuncias aceptadas
+
+// Alumbrado publico 
+// Utility Pole == poste de electricidad
+// Lamp Post == poste de luz
+
+// Alcantarillado
+// sewer = alcantarillado
+// drain == drenar / drenaje / desague
+// Pipeline == tuberia
+ALCANTARILLADO PLUVIAL
+El sistema de alcantarillado pluvial es responsabilidad del Gobierno Autónomo Municipal de Santa Cruz. 
+El sistema de alcantarillado sanitario es responsabilidad de SAGUAPAC.
+
+// Baches
+// Puddle == charco
+// Tarmac == pista / alquitranado / asfalto
+// Hole == agujero
+// water == agua
+// tar == alquitran // talvez
+// crater == crater // talvez
+
+// Basura y reciclaje
+// Garbage = basura
+// Trash == basura
+
+// Vandalismo y graffiti
+//Graffiti == graffiti
+// Painting == cuadro / pintura / pintado
+// mural = mural
+
+// Trasnporte publico
+// Bus = autobus
+// Transportation = trasporte
+// Vehicle = vehiculo
+// Truck = camion //talvez
+
+// Espacios publicos deteriorados
+// Outdoors = al aire libre 11
+// nature = naturaleza 11
+
+// play area = zona de juegos 11 11
+// Outdoor Play Are = juegos al aire libre 11
+
+// Bench = banco / banquillo 11
+// Backyard = patio trasero 11
+
+// garde = jardin 11
+// park = parque 11
+
+// Ruido y contaminacion acustica // quitar

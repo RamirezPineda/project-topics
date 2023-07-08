@@ -1,8 +1,16 @@
 import { Request, Response } from "express";
 import AuthService from "../services/auth.service.js";
+import { io } from '../index.js'
 
-const isAlive = (req: Request, res: Response) => {
-  return res.status(200).json({ menssage: "is Ok" });
+const isAlive = async (req: Request, res: Response) => {
+  try {
+    io.emit("isAlive", "IS ALIVE OK")
+
+    return res.status(200).json({ menssage: "is Ok" });
+  } catch (error) {
+    console.log("EL error: ", error);
+    res.status(500).json(error);
+  }
 };
 
 const verifyDataUser = async (req: Request, res: Response) => {

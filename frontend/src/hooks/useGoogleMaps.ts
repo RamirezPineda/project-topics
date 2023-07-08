@@ -1,12 +1,17 @@
 import { useState, useCallback } from "react";
 import { useJsApiLoader } from "@react-google-maps/api";
 
+
+type Libraries = ("drawing" | "geometry" | "localContext" | "places" | "visualization")[];
+const LIBRARIES: Libraries = [("visualization")];
+
 const useGoogleMaps = () => {
   const [map, setMap] = useState<google.maps.Map | null>(null);
 
   const { isLoaded } = useJsApiLoader({
     id: "google-map-script",
     googleMapsApiKey: "AIzaSyDWaQ8sfVh1RMOkmSncezzGh-QbDABjuZ0",
+    libraries: LIBRARIES,
   });
 
   const onLoad = useCallback((map: google.maps.Map) => {
@@ -20,7 +25,7 @@ const useGoogleMaps = () => {
     setMap(null);
   }, []);
 
-  return { map, isLoaded, onLoad, onUnmount };
+  return { map, setMap, isLoaded, onLoad, onUnmount };
 };
 
 export { useGoogleMaps };

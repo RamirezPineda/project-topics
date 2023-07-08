@@ -1,29 +1,40 @@
 import { lazy, Suspense } from "react";
-// import { Provider } from "react-redux";
+import { Provider } from "react-redux";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { SWRConfig } from "swr";
 
-// import { store } from "./redux/store";
-import { PublicRoutes } from "./constants/routes";
+import { store } from "./redux/store";
+import { PrivateRoutes, PublicRoutes } from "./constants/routes";
 import Loading from "./pages/Loading/Loading";
 
+import Authenticate from "./guards/Authenticate";
+
 const Landing = lazy(() => import("./pages/Lading/Landing"));
+const Login = lazy(() => import("./pages/Login/Login"));
+const Private = lazy(() => import("./pages/Private/Private"));
 
 function App() {
   return (
-    <SWRConfig value={{ suspense: true, revalidateOnFocus: false }}>
-      <Suspense fallback={<Loading />}>
-        {/* <Provider store={store}> */}
+    <Provider store={store}>
+      <SWRConfig value={{ revalidateOnFocus: false }}>
+        <Suspense fallback={<Loading />}>
           <BrowserRouter>
             <Routes>
-              <Route index path="/" element={<Landing />} />
-              <Route index path={PublicRoutes.LANDING} element={<Landing />} />
-              <Route path="*" element={<>PAGE NOT FOUNT</>} />
+              <Route path="/*" element={<Landing />} />
+              {/* <Route path={PublicRoutes.LANDING} element={<Landing />} /> */}
+              <Route path={PublicRoutes.LOGIN} element={<Login />} />
+              <Route element={<Authenticate />}>
+                <Route
+                  path={`${PrivateRoutes.PRIVATE}/*`}
+                  element={<Private />}
+                />
+              </Route>
+              <Route path="*" element={<>PAGE NOT FOUNT :c</>} />
             </Routes>
           </BrowserRouter>
-        {/* </Provider> */}
-      </Suspense>
-    </SWRConfig>
+        </Suspense>
+      </SWRConfig>
+    </Provider>
   );
 }
 

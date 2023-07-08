@@ -11,6 +11,7 @@ import { verify, encrypt } from "../utils/bcrypt.utils.js";
 import { generateToken } from "../utils/jwt.utils.js";
 import { confirmFace } from "../utils/rekognition.js";
 import { transport } from "../config/nodemailer.js";
+import RolModel from "../models/rol.model.js";
 
 type dataUserType = {
   ci: string;
@@ -59,12 +60,15 @@ const registerNewUser = async ({
 }: dataUserType) => {
   //data limpia, se supone que paso todas las validaciones de la funcion VerifyDataUser
 
+  const rol = await RolModel.findOne({ name: "neighbor" });
+
   const passwordHash = await encrypt(password);
   const newUser = await UserModel.create({
     email,
     passwords: [passwordHash],
     lastPasswordChange: new Date(),
     tokenMovil,
+    rolId: rol?._id,
   });
 
   const newPerson = await PersonModel.create({
@@ -73,6 +77,7 @@ const registerNewUser = async ({
     address,
     phone,
     photo,
+    typePerson: "neighbor",
     userId: newUser._id,
   });
 
@@ -102,6 +107,9 @@ const login = async ({ email, password }: Auth) => {
   const person = await PersonModel.findOne({ userId: userFound._id });
   if (!person) return null;
 
+  const rol = await RolModel.findById({ _id: userFound.rolId });
+  if (!rol) return null;
+
   const token = generateToken(userFound);
   const data = {
     _id: userFound._id,
@@ -115,6 +123,7 @@ const login = async ({ email, password }: Auth) => {
     photo: person.photo,
     personId: person._id,
     token,
+    rolName: rol.name,
   };
 
   return data;
@@ -155,7 +164,7 @@ const updateProfile = async (id: string, data: PersonEditDataType) => {
     phone: personFound.phone,
     lastPasswordChange: userFound.lastPasswordChange,
   };
-  
+
   return newData;
 };
 

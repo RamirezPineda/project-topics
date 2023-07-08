@@ -1,3 +1,7 @@
+export enum TypeOfPerson {
+  official = "official",
+  neighbor = "neighbor",
+}
 
 export interface Person {
   _id?: string;
@@ -6,5 +10,7 @@ export interface Person {
   photo: string;
   address: string;
   phone: string;
+  type: TypeOfPerson;
   userId: string;
+  areaId: string | null;
 }

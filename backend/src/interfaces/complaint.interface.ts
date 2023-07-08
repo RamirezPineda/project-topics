@@ -8,6 +8,7 @@ export interface Complaint {
   state: string;
   latitude: number;
   longitude: number;
-  categoryId: string;
+  observation: string | null;
+  typeComplaintId: string;
   personId: string;
 }

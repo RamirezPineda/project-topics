@@ -1,5 +1,5 @@
 import { Schema, model } from "mongoose";
-import { Person } from "../interfaces/person.interface.js";
+import { Person, TypeOfPerson } from "../interfaces/person.interface.js";
 
 const PersonSchema = new Schema<Person>(
   {
@@ -8,7 +8,9 @@ const PersonSchema = new Schema<Person>(
     photo: String,
     address: String,
     phone: String,
+    type: { type: String, enum: TypeOfPerson, require: true },
     userId: String,
+    areaId: { type: String, default: null },
   },
   {
     timestamps: true,

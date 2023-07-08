@@ -9,7 +9,8 @@ const ComplaintSchema = new Schema<Complaint>(
     state: { type: String, default: "pendiente" },
     latitude: { type: Number, required: true },
     longitude: { type: Number, required: true },
-    categoryId: { type: String, required: true },
+    observation: { type: String, default: null },
+    typeComplaintId: { type: String, required: true },
     personId: { type: String, required: true },
   },
   {
