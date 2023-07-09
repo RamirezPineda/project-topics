@@ -1,5 +1,11 @@
 # Topics project
 
+cd backend/
+npm install
+
+cd frontend/
+npm i
+
 {
   "name": "Joe Doe",
   "email": "joe-doe@gmail.com",
