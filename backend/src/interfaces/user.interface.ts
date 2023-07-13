@@ -7,3 +7,14 @@ export interface User {
   state?: boolean;
   rolId: string;
 }
+
+export type dataUserType = {
+  ci: string;
+  name: string;
+  email: string;
+  password: string;
+  address: string;
+  photo: string;
+  phone: string;
+  tokenMovil: string;
+};

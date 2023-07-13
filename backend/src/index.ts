@@ -53,9 +53,9 @@ io.on("connection", (socket) => {
   console.log("a user connected");
   console.log(socket.id);
 
-  socket.on('hello from client', (arg) => {
-    console.log('escuchando ', arg)
-  })
+  socket.on("hello from client", (arg) => {
+    console.log("escuchando ", arg);
+  });
   // console.log(socket.connected); // true
 });
 
@@ -64,6 +64,8 @@ io.on("hello-from-client", (...args) => {
 });
 
 const PORT = process.env.PORT || 3000;
-server.listen(3000, "192.168.43.226", () => console.log(`Server on port ${PORT}`));
+// server.listen(PORT, () => console.log(`Server on port ${PORT}`));
+server.listen(3000, "192.168.0.58", () => console.log(`Server on port ${PORT}`));
+
 //, "192.168.0.58"
 // app.listen(PORT, () => console.log(`Server on port ${PORT}`));

@@ -87,6 +87,10 @@ const deleteComplaint = async (req: Request, res: Response) => {
     const { id } = req.params;
     const deletedComplaint = await ComplaintService.deleteComplaint(`${id}`);
 
+    if (!deletedComplaint || "message" in deletedComplaint) {
+      return res.status(400).json(deletedComplaint);
+    }
+
     return res.status(200).json(deletedComplaint);
   } catch (error) {
     console.log(error);

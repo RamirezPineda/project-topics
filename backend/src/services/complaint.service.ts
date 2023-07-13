@@ -159,6 +159,10 @@ const deleteComplaint = async (id: string) => {
     { new: true }
   );
 
+  if (!deletedComplaint) {
+    return { message: "La denuncia no existe" };
+  }
+
   return deletedComplaint;
 };
 
@@ -211,16 +215,6 @@ const updateStateComplaint = async (id: string, state: string) => {
   await complaint.save();
 
   // TODO: SEND NOTIFICATION
-  // const message = {
-  //   data: {
-  //     score: '850',
-  //     time: '2:45',
-  //     test: "prueba",
-  //   },
-  //   token: 'TOKEN_DEVICE_MOVIL'
-  // };
-
-  // messageFirebase.send(message, true);
 
   return complaint;
 };

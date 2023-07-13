@@ -14,3 +14,9 @@ export interface Person {
   userId: string;
   areaId: string | null;
 }
+
+export type PersonEditDataType = {
+  address: string;
+  phone: string;
+  password?: string;
+};

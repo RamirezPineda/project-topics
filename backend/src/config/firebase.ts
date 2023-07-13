@@ -6,7 +6,3 @@ import { getMessaging, Message } from "firebase-admin/lib/messaging";
 const appFirebase = initializeApp({
   credential: applicationDefault(),
 });
-
-export const messaging = getMessaging();
-
-messaging.send({ token: "" });

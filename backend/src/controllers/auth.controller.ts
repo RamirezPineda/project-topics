@@ -1,10 +1,10 @@
 import { Request, Response } from "express";
 import AuthService from "../services/auth.service.js";
-import { io } from '../index.js'
+
+
 
 const isAlive = async (req: Request, res: Response) => {
   try {
-    io.emit("isAlive", "IS ALIVE OK")
 
     return res.status(200).json({ menssage: "is Ok" });
   } catch (error) {
@@ -33,7 +33,8 @@ const verifyDataUser = async (req: Request, res: Response) => {
 
 const registerNewUser = async (req: Request, res: Response) => {
   try {
-    const { ci, name, email, password, address, phone, photo, tokenMovil } = req.body;
+    const { ci, name, email, password, address, phone, photo, tokenMovil } =
+      req.body;
 
     const newUser = await AuthService.registerNewUser({
       name,
@@ -102,13 +103,13 @@ const updateProfile = async (req: Request, res: Response) => {
   }
 };
 
-const logout = async (req: Request, res: Response) => {
-  try {
-  } catch (error) {
-    console.log(error);
-    res.status(500).json({ message: "Ocurrio un error en el server" });
-  }
-};
+// const logout = async (req: Request, res: Response) => {
+//   try {
+//   } catch (error) {
+//     console.log(error);
+//     res.status(500).json({ message: "Ocurrio un error en el server" });
+//   }
+// };
 
 export default {
   isAlive,
@@ -117,5 +118,5 @@ export default {
   sendEmail,
   login,
   updateProfile,
-  logout,
+  // logout,
 };

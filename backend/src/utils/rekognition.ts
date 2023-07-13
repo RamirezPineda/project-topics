@@ -20,7 +20,6 @@ const confirmFace = async (userImageFile: UploadedFile, segipImage: string) => {
   const imageBuffer2 = await response2.arrayBuffer();
   const imageBytes2 = new Uint8Array(imageBuffer2);
 
-  // CompareFacesRequest
   const inputParams = {
     SourceImage: {
       Bytes: userImageBytes,
@@ -36,11 +35,9 @@ const confirmFace = async (userImageFile: UploadedFile, segipImage: string) => {
   const result = await rekognition.send(command);
 
   if (result.FaceMatches && result.FaceMatches.length > 0) {
-    // Se encontraron rostros similares :)
     console.log("El rostro de la imagen1 esta presente en la imagen2");
     return true;
   } else {
-    // No se encontraron rostros similares :(
     console.log("El rostro de la imagen1 NO esta presente en la imagen2.");
     return false;
   }

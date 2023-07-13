@@ -12,17 +12,10 @@ import { generateToken } from "../utils/jwt.utils.js";
 import { confirmFace } from "../utils/rekognition.js";
 import { transport } from "../config/nodemailer.js";
 import RolModel from "../models/rol.model.js";
+import { PersonEditDataType } from "../interfaces/person.interface.js";
+import { dataUserType } from "../interfaces/user.interface.js";
 
-type dataUserType = {
-  ci: string;
-  name: string;
-  email: string;
-  password: string;
-  address: string;
-  photo: string;
-  phone: string;
-  tokenMovil: string;
-};
+
 
 const verifyDataUser = async (ci: string, files: fileUploadType) => {
   const existPerson = await PersonModel.findOne({ ci });
@@ -129,11 +122,6 @@ const login = async ({ email, password }: Auth) => {
   return data;
 };
 
-type PersonEditDataType = {
-  address: string;
-  phone: string;
-  password?: string;
-};
 
 const updateProfile = async (id: string, data: PersonEditDataType) => {
   const userFound = await UserModel.findById({ _id: id });
