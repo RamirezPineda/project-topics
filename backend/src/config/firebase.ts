@@ -1,8 +1,16 @@
 import "dotenv/config";
-import { initializeApp, applicationDefault } from "firebase-admin/app";
-import { getMessaging, Message } from "firebase-admin/lib/messaging";
+import firebase from "firebase-admin";
+import { initializeApp } from "firebase-admin/app";
+import { getMessaging } from "firebase-admin/messaging";
+
+const { credential } = firebase;
 
 // Initialize Firebase
 const appFirebase = initializeApp({
-  credential: applicationDefault(),
+  credential: credential.cert("./firebase.json"),
 });
+
+// console.log("credenciales", appFirebase.options.credential);
+console.log("name: ", appFirebase.name);
+
+export const firebaseMessaging = getMessaging();

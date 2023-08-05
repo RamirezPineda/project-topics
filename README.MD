@@ -4,16 +4,8 @@ cd backend/
 npm install
 
 cd frontend/
-npm i
+npm install
 
-{
-  "name": "Joe Doe",
-  "email": "joe-doe@gmail.com",
-  "ci": "12345678",
-  "photoUrl": "https://res.cloudinary.com/dwn7fonh6/image/upload/v1683827537/exam1-software/cx3no6vuqqsqqaend88m.jpg",
-  "address": "Street Fake #123",
-  "phone" : "87654321"
-}
 
 // Promt 
 {
@@ -84,3 +76,5 @@ El sistema de alcantarillado sanitario es responsabilidad de SAGUAPAC.
 // park = parque 11
 
 // Ruido y contaminacion acustica // quitar
+
+

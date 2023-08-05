@@ -13,6 +13,15 @@ export const dbConnet = async () => {
   await connect(DB_URI);
 };
 
+// {
+//   "name": "Joe Doe",
+//   "email": "joe-doe@gmail.com",
+//   "ci": "12345678",
+//   "photoUrl": "https://res.cloudinary.com/dwn7fonh6/image/upload/v1683827537/exam1-software/cx3no6vuqqsqqaend88m.jpg",
+//   "address": "Street Fake #123",
+//   "phone" : "87654321"
+// }
+
 export const seeders = async () => {
   console.log("Implementing seeders");
   // await SegipModel.create({
@@ -23,13 +32,33 @@ export const seeders = async () => {
   //     "https://res.cloudinary.com/dwn7fonh6/image/upload/v1683827537/exam1-software/cx3no6vuqqsqqaend88m.jpg",
   //   ci: "12345678",
   // });
-  //   await SegipModel.create({
-  //   name: "Glem Doe",
+
+  //YOOOOOO
+  // await SegipModel.create({
+  //   name: "Julio Doe",
   //   address: "Street Fake #456",
-  //   phone: "80111320",
+  //   phone: "80111311",
   //   photo:
-  //     "https://res.cloudinary.com/dwn7fonh6/image/upload/v1683827537/exam1-software/cx3no6vuqqsqqaend88m.jpg",
-  //   ci: "01435678",
+  //     "https://res.cloudinary.com/dwn7fonh6/image/upload/v1689294362/ecommerce/WhatsApp_Image_2023-07-13_at_8.25.32_PM_ao16oz.jpg",
+  //   ci: "012345679",
+  // });
+
+  // await SegipModel.create({
+  //   name: "Neymar Junior2",
+  //   address: "Street Fake #456",
+  //   phone: "621242000",
+  //   photo:
+  //     "https://s.hs-data.com/bilder/spieler/gross/142105.jpg",
+  //   ci: "00123450",
+  // });
+
+  //   await SegipModel.create({
+  //   name: "Maradona juanito",
+  //   address: "Street Fake #456",
+  //   phone: "62141450",
+  //   photo:
+  //     "https://imagenes.america.elpais.com/resizer/94yVCTKn99k7iJkg43Xd2R36B14=/1960x1470/cloudfront-eu-central-1.images.arcpublishing.com/prisa/XSD5K2UU65EYBIRP5G7ZVZN6IQ.jpg",
+  //   ci: "00001234",
   // });
 
   // const passwordHash = await encrypt("12345678mM@");

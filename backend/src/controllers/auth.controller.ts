@@ -1,10 +1,31 @@
 import { Request, Response } from "express";
+
+import { Message } from "firebase-admin/lib/messaging";
+
 import AuthService from "../services/auth.service.js";
+// import { io } from '../index.js'
 
+import { firebaseMessaging } from '../config/firebase.js'
 
+// const requestMessage: Message = {
+//   token:
+//     "em1dG9kZQNqXoZTjjvK04W:APA91bGE-H-1RNU83G9iS1GKNNTqhzyak0cldsGR1sw0WuSW9rcQA2RtPTXM8Ug8lDf2P6bqRGfwiAb7fj_eXm0RNVtmAQMIbSmueFtyH_wtUi5ilFHD9un7kTRfHDuFx-zVTpEUao1o",
+//   notification: { title: "Este es el titulo", body: "Este es el body" },
+//   data: {
+//     comida: "frita desde el backend",
+//     complaint: `{
+//       "state": "estado de la denuncia",
+//       "observation": "observacion de la denuncia"
+//     }`
+//   },
+//   android: { priority:"high" },
+// };
+// const nuevo = firebaseMessaging;
+// firebaseMessaging.send(requestMessage);
 
 const isAlive = async (req: Request, res: Response) => {
   try {
+    // io.emit("isAlive", "IS ALIVE OK")
 
     return res.status(200).json({ menssage: "is Ok" });
   } catch (error) {

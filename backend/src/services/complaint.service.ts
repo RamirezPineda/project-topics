@@ -1,7 +1,15 @@
+import { Message } from "firebase-admin/lib/messaging";
+
+import { io } from "../index.js";
+
+import { firebaseMessaging } from "../config/firebase.js";
+
 import TypeComplaintModel from "../models/typeComplaint.model.js";
 import ComplaintModel from "../models/complaint.model.js";
 import PersonModel from "../models/person.model.js";
 import AreaModel from "../models/area.model.js";
+import UserModel from "../models/user.model.js";
+import NotificationModel from "../models/notification.model.js";
 
 import { Complaint } from "../interfaces/complaint.interface.js";
 import { fileUploadType } from "../interfaces/fileUploadType.js";
@@ -9,10 +17,6 @@ import { fileUploadType } from "../interfaces/fileUploadType.js";
 import { itIsOfensive, validateMessage } from "../utils/verifyText.utils.js";
 import { uploadMultipleImages } from "../utils/uploadImage.utils.js";
 import { validateImages } from "../utils/rekognition.js";
-
-import { io } from "../index.js";
-
-// import { messageFirebase } from '../config/firebase.js'
 
 const addComplaint = async (data: Complaint, files: fileUploadType) => {
   const typeComplaint = await TypeComplaintModel.findById({
@@ -203,20 +207,53 @@ const addObservationWithState = async (complaintData: Complaint) => {
     return { message: "La denuncia no existe" };
   }
 
+  const personFound = await PersonModel.findById({
+    _id: updatedComplaint.personId,
+  });
+
+  if (!personFound) {
+    return { message: "La persona no existe" };
+  }
+
+  const userFound = await UserModel.findById({ _id: personFound.userId });
+
+  if (!userFound) {
+    return { message: "El usuario no existe" };
+  }
+
+  console.log(userFound);
+
+  const newNotification = await NotificationModel.create({
+    title: "Se agrego una observacion",
+    description: `Se agrego una observacion a su denuncia de: ${updatedComplaint.title}`,
+    userId: userFound.id,
+  });
+
+  const requestMessage: Message = {
+    token: userFound.tokenMovil,
+    notification: {
+      title: `${newNotification.title}`,
+      body: `${newNotification.description}`,
+    },
+    data: {
+      comida: "Hello world, backend",
+      complaint: `{
+        "_id": "${updatedComplaint._id}",
+        "state": "${updatedComplaint.state}",
+        "observation": "${updatedComplaint.observation}"
+      }`,
+      notification: `{
+        "_id": "${newNotification._id}",
+        "title": "${newNotification.title}",
+        "description": "${newNotification.description}"
+      }`,
+    },
+    android: { priority: "high" },
+  };
+
+  firebaseMessaging.send(requestMessage);
+
   return updatedComplaint;
-};
-
-const updateStateComplaint = async (id: string, state: string) => {
-  const complaint = await ComplaintModel.findById({ _id: id });
-
-  if (!complaint) return { message: "La denuncia no existe" };
-
-  complaint.state = state;
-  await complaint.save();
-
-  // TODO: SEND NOTIFICATION
-
-  return complaint;
 };
 
 export default {
@@ -226,6 +263,5 @@ export default {
   updateComplaint,
   getAllComplaintPerson,
   getAllComplaintsOfficial,
-  updateStateComplaint,
   addObservationWithState,
 };

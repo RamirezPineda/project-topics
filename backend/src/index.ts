@@ -14,6 +14,7 @@ import complaints from "./routes/complaint.routes.js";
 import areas from "./routes/area.routes.js";
 import officials from "./routes/official.routes.js";
 import neighbors from "./routes/neighbor.routes.js";
+import notifications from "./routes/notification.routes.js";
 
 const app = express();
 
@@ -29,6 +30,7 @@ app.use("/api", complaints);
 app.use("/api", areas);
 app.use("/api", officials);
 app.use("/api", neighbors);
+app.use("/api", notifications);
 
 const server = http.createServer(app);
 export const io = new Server(server, {
@@ -65,7 +67,9 @@ io.on("hello-from-client", (...args) => {
 
 const PORT = process.env.PORT || 3000;
 // server.listen(PORT, () => console.log(`Server on port ${PORT}`));
-server.listen(3000, "192.168.0.58", () => console.log(`Server on port ${PORT}`));
+server.listen(3000, "127.0.0.1", () =>
+  console.log(`Server on port ${PORT}`)
+);
 
 //, "192.168.0.58"
 // app.listen(PORT, () => console.log(`Server on port ${PORT}`));
