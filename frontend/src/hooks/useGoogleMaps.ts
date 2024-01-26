@@ -10,7 +10,7 @@ const useGoogleMaps = () => {
 
   const { isLoaded } = useJsApiLoader({
     id: "google-map-script",
-    googleMapsApiKey: "AIzaSyDWaQ8sfVh1RMOkmSncezzGh-QbDABjuZ0",
+    googleMapsApiKey: "YOUR_API_KEY",
     libraries: LIBRARIES,
   });
 
